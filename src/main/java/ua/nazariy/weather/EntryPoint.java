@@ -15,7 +15,7 @@ public class EntryPoint {
             ApiContextInitializer.init();
             TelegramBotsApi botsApi = new TelegramBotsApi();
             DefaultBotOptions botOptions = ApiContext.getInstance(DefaultBotOptions.class);
-            botsApi.registerBot(new Bot(botOptions));
+            botsApi.registerBot(new Bot(botOptions, Setting.getSecureConfig()));
         } catch (TelegramApiRequestException e) {
             e.printStackTrace();
         }
