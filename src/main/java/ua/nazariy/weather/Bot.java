@@ -5,16 +5,10 @@ import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingC
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ua.nazariy.weather.commands.StartCommand;
 import ua.nazariy.weather.commands.WeatherCommand;
-import ua.nazariy.weather.config.Config;
 
 public class Bot extends TelegramLongPollingCommandBot {
-    private final String BOT_TOKEN;
-
-    public Bot(DefaultBotOptions botOptions, Config secureConfig){
+    public Bot(DefaultBotOptions botOptions){
         super(botOptions);
-
-        BOT_TOKEN = secureConfig.getProperty("bot.token");
-
         register(new WeatherCommand("/weather", "send you current weather"));
         register(new StartCommand("/start", "start"));
     }
@@ -31,6 +25,6 @@ public class Bot extends TelegramLongPollingCommandBot {
 
     @Override
     public String getBotToken() {
-        return BOT_TOKEN;
+        return "bot_token";
     }
 }

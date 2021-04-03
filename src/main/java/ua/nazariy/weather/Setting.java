@@ -12,31 +12,19 @@ import java.util.List;
 
 public class Setting {
     private static final String CONFIG_PATH = "src/main/resources/config.properties";
-    private static final String SECURE_CONFIG_PATH = "src/main/resources/secure-info.properties";
-
     private static Config config;
-    private static Config secureConfig;
-
     private static List<Language> languages;
 
     public static void onStart(){
         init();
-
-        parseConfig();
         langSetup();
         registerFactories();
     }
 
     private static void init(){
-        languages = new ArrayList<>();
-    }
-
-    private static void parseConfig(){
         ConfigParser configParser = new ConfigParser(CONFIG_PATH);
         config = configParser.parse();
-
-        configParser = new ConfigParser(SECURE_CONFIG_PATH);
-        secureConfig = configParser.parse();
+        languages = new ArrayList<>();
     }
 
     private static void langSetup(){
@@ -53,13 +41,5 @@ public class Setting {
 
     public static void setConfig(Config config) {
         Setting.config = config;
-    }
-
-    public static Config getSecureConfig() {
-        return secureConfig;
-    }
-
-    public static void setSecureConfig(Config secureConfig) {
-        Setting.secureConfig = secureConfig;
     }
 }

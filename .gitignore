@@ -33,6 +33,3 @@ out/
 *.iml
 *.ipr
 *.iws
-
-# secure info
-/src/main/resources/secure-info.properties
