@@ -3,6 +3,8 @@ package ua.nazariy.weather.lang;
 import java.util.Objects;
 
 public class Language {
+    public String LANGUAGE_FULL;
+
     public String START_GREETINGS;
     public String WEATHER_COMMAND;
     public String HELP_COMMAND;

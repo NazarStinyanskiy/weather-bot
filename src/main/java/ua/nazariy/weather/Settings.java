@@ -11,7 +11,7 @@ import ua.nazariy.weather.lang.UALang;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Setting {
+public class Settings {
     private static final String CONFIG_PATH = "src/main/resources/config.properties";
     private static final String SECURE_CONFIG_PATH = "src/main/resources/secure-info.properties";
 
