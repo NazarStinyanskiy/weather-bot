@@ -3,11 +3,14 @@ package ua.nazariy.weather.commands;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import ua.nazariy.weather.lang.ENLang;
+import ua.nazariy.weather.Setting;
+import ua.nazariy.weather.db.connection.UserConnection;
+import ua.nazariy.weather.db.pojo.UserPOJO;
 import ua.nazariy.weather.lang.Language;
+
+import java.util.Map;
 
 public abstract class AbstractCommand extends BotCommand {
     protected Language language;
@@ -29,15 +32,33 @@ public abstract class AbstractCommand extends BotCommand {
 
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
-        language = defineLanguage(message.getFrom());
+        UserPOJO user = UserConnection.select(message.getFrom().getId());
+        if(user == null){
+            user = new UserPOJO();
+            user.setUserId(message.getFrom().getId());
+            UserConnection.write(user);
+        }
+
+        String userLanguageCode = UserConnection.select(message.getFrom().getId()).getLanguage();
+        language = userLanguageCode == null ? defineLanguage(message.getFrom().getLanguageCode()) : defineLanguage(userLanguageCode);
+        if(language == null) language = Setting.getLanguages().get("en");
+
         super.processMessage(absSender, message, arguments);
     }
 
-    protected Language defineLanguage(User user){
-        if(user.getLanguageCode().equals("en")){
-            return new ENLang();
-        } else {
-            return new ENLang();
+    protected Language defineLanguage(String countryCode){
+        for (Map.Entry<String, Language> entry : Setting.getLanguages().entrySet()) {
+            if(countryCode.equals(entry.getKey())) return entry.getValue();
         }
+
+        return null;
+    }
+
+    protected String concatenateArgs(String[] arguments){
+        StringBuilder param = new StringBuilder();
+        for (String s : arguments) {
+            param.append(s);
+        }
+        return param.toString();
     }
 }

@@ -6,9 +6,10 @@ import ua.nazariy.weather.config.factory.OpenWeatherMapFactory;
 import ua.nazariy.weather.config.parsers.ConfigParser;
 import ua.nazariy.weather.lang.ENLang;
 import ua.nazariy.weather.lang.Language;
+import ua.nazariy.weather.lang.UALang;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Setting {
     private static final String CONFIG_PATH = "src/main/resources/config.properties";
@@ -17,7 +18,7 @@ public class Setting {
     private static Config config;
     private static Config secureConfig;
 
-    private static List<Language> languages;
+    private static Map<String, Language> languages;
 
     public static void onStart(){
         init();
@@ -28,7 +29,7 @@ public class Setting {
     }
 
     private static void init(){
-        languages = new ArrayList<>();
+        languages = new HashMap<>();
     }
 
     private static void parseConfig(){
@@ -40,7 +41,8 @@ public class Setting {
     }
 
     private static void langSetup(){
-        languages.add(new ENLang());
+        languages.put("en", new ENLang());
+        languages.put("ua", new UALang());
     }
 
     private static void registerFactories(){
@@ -51,15 +53,11 @@ public class Setting {
         return config;
     }
 
-    public static void setConfig(Config config) {
-        Setting.config = config;
-    }
-
     public static Config getSecureConfig() {
         return secureConfig;
     }
 
-    public static void setSecureConfig(Config secureConfig) {
-        Setting.secureConfig = secureConfig;
+    public static Map<String, Language> getLanguages() {
+        return languages;
     }
 }
