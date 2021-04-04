@@ -1,13 +1,13 @@
 package ua.nazariy.weather.db.connection;
 
-import ua.nazariy.weather.Setting;
+import ua.nazariy.weather.Settings;
 import ua.nazariy.weather.config.Config;
 import ua.nazariy.weather.db.pojo.UserPOJO;
 
 import java.sql.*;
 
 public class UserConnection {
-    private static final Config secureConfig = Setting.getSecureConfig();
+    private static final Config secureConfig = Settings.getSecureConfig();
 
     public static UserPOJO select(long userId){
         Connection connection = null;

@@ -10,7 +10,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 public class EntryPoint {
     public static void main(String[] args) {
         try {
-            Setting.onStart();
+            Settings.onStart();
 
             ApiContextInitializer.init();
             TelegramBotsApi botsApi = new TelegramBotsApi();

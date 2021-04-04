@@ -5,7 +5,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import ua.nazariy.weather.Setting;
+import ua.nazariy.weather.Settings;
 import ua.nazariy.weather.db.connection.UserConnection;
 import ua.nazariy.weather.db.pojo.UserPOJO;
 import ua.nazariy.weather.lang.Language;
@@ -41,13 +41,13 @@ public abstract class AbstractCommand extends BotCommand {
 
         String userLanguageCode = UserConnection.select(message.getFrom().getId()).getLanguage();
         language = userLanguageCode == null ? defineLanguage(message.getFrom().getLanguageCode()) : defineLanguage(userLanguageCode);
-        if(language == null) language = Setting.getLanguages().get("en");
+        if(language == null) language = Settings.getLanguages().get("en");
 
         super.processMessage(absSender, message, arguments);
     }
 
     protected Language defineLanguage(String countryCode){
-        for (Map.Entry<String, Language> entry : Setting.getLanguages().entrySet()) {
+        for (Map.Entry<String, Language> entry : Settings.getLanguages().entrySet()) {
             if(countryCode.equals(entry.getKey())) return entry.getValue();
         }
 

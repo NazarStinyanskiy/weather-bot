@@ -2,6 +2,11 @@ package ua.nazariy.weather.lang;
 
 public class ENLang extends Language {
     public ENLang(){
+        LANGUAGE_FULL =
+                """
+                English
+                """;
+
         START_GREETINGS =
                 """
                 Welcome, to our (and now your) weather bot!

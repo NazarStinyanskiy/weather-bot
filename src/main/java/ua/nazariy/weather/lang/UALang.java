@@ -2,6 +2,11 @@ package ua.nazariy.weather.lang;
 
 public class UALang extends Language {
     public UALang(){
+        LANGUAGE_FULL =
+                """
+                Українська
+                """;
+
         START_GREETINGS =
                 """
                 Вітаємо в нашому (а тепер і вашому) боті!
