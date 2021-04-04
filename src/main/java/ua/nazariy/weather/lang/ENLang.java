@@ -19,6 +19,22 @@ public class ENLang extends Language {
         HELP_COMMAND =
                 """
                 /weather - to choose weather service
+                /lang [language] - to choose language. Example /lang en - To use english
                 """;
+
+         NO_SUCH_LANGUAGE =
+                 """
+                 We do not support this language yet. Type /langs to see all supported languages
+                 """;
+
+         LANGUAGE_WERE_SUCCESSFULLY_CHANGED =
+                 """
+                 Language were successfully changed!
+                 """;
+
+         INTERNAL_ERROR =
+                 """
+                 Unfortunately there was internal error. We already working on it!
+                 """;
     }
 }
