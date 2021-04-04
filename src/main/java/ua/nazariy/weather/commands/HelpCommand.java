@@ -14,7 +14,7 @@ public class HelpCommand extends AbstractCommand{
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
         SendMessage sendMessage = new SendMessage();
-//        sendMessage.setChatId(chat.getId()).setText(language.);
+        sendMessage.setChatId(chat.getId()).setText(language.HELP_COMMAND);
         execute(absSender, sendMessage);
     }
 }

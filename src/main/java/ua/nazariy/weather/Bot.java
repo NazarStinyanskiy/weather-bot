@@ -3,6 +3,7 @@ package ua.nazariy.weather;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import ua.nazariy.weather.commands.HelpCommand;
 import ua.nazariy.weather.commands.LanguageCommand;
 import ua.nazariy.weather.commands.StartCommand;
 import ua.nazariy.weather.commands.WeatherCommand;
@@ -16,9 +17,10 @@ public class Bot extends TelegramLongPollingCommandBot {
         Config secureConfig = Setting.getSecureConfig();
         BOT_TOKEN = secureConfig.getProperty("bot.token");
 
-        register(new WeatherCommand("/weather", "send you current weather"));
         register(new StartCommand("/start", "start"));
-        register(new LanguageCommand("/lang", "switch language"));
+        register(new HelpCommand("/help", "print a list of available commands"));
+        register(new WeatherCommand("/weather", "sending you a current weather"));
+        register(new LanguageCommand("/lang", "switching language"));
     }
 
     @Override
