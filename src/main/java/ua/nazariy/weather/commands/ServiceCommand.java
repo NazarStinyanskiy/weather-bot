@@ -4,19 +4,17 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.bots.AbsSender;
-import ua.nazariy.weather.Settings;
 
-public class LangsCommand extends AbstractCommand {
-    public LangsCommand(String commandIdentifier, String description) {
+public class ServiceCommand extends AbstractCommand {
+
+    public ServiceCommand(String commandIdentifier, String description) {
         super(commandIdentifier, description);
     }
 
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
-        SendMessage sendMessage = new SendMessage().setChatId(chat.getId());
-        StringBuilder text = new StringBuilder();
-        Settings.getLanguages().forEach((code, lang) -> text.append(code).append(" - ").append(lang.LANGUAGE_FULL).append('\n'));
-        sendMessage.setText(text.toString());
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(chat.getId()).setText(language.SERVICE_COMMAND);
         execute(absSender, sendMessage);
     }
 }

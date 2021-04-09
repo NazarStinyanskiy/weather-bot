@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Properties;
 
-public class ConfigParser {
+public class ConfigParser implements Parser{
     private Config config;
     private Properties properties;
 
