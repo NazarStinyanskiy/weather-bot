@@ -16,9 +16,11 @@ public class Bot extends TelegramLongPollingCommandBot {
 
         register(new StartCommand("/start", "start"));
         register(new HelpCommand("/help", "print a list of available commands"));
-        register(new WeatherCommand("/weather", "sending you a current weather"));
+        register(new ServiceCommand("/service", "switching weather service"));
         register(new LanguageCommand("/lang", "switching language"));
         register(new LangsCommand("/langs", "shows all available languages"));
+        register(new OpenWeatherMapCommand("/open_weather_map", "choosing open weather map service"));
+        register(new WeatherCommand("/weather", "sending current weather"));
     }
 
     @Override

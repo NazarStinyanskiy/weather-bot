@@ -4,6 +4,7 @@ public class UserPOJO {
     private long userId;
     private String language;
     private String phone;
+    private String weatherService;
 
     public UserPOJO(){
 
@@ -37,5 +38,13 @@ public class UserPOJO {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getWeatherService() {
+        return weatherService;
+    }
+
+    public void setWeatherService(String weatherService) {
+        this.weatherService = weatherService;
     }
 }

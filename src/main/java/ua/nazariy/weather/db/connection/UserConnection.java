@@ -29,6 +29,7 @@ public class UserConnection {
                 user.setUserId(resultSet.getLong("user_id"));
                 user.setLanguage(resultSet.getString("language"));
                 user.setPhone(resultSet.getString("phone_number"));
+                user.setWeatherService(resultSet.getString("weather_service"));
             } while (resultSet.next());
 
             resultSet.close();
@@ -61,7 +62,12 @@ public class UserConnection {
             connection = DriverManager.getConnection(secureConfig.getProperty("db.url"), secureConfig.getProperty("db.user"), secureConfig.getProperty("db.password"));
             statement = connection.createStatement();
 
-            statement.executeUpdate("INSERT INTO users VALUES (" + userPOJO.getUserId() + ", " + userPOJO.getLanguage() + ", " + userPOJO.getPhone() + ")");
+            statement.executeUpdate("INSERT INTO users VALUES ("
+                    + userPOJO.getUserId() + ", "
+                    + userPOJO.getLanguage() + ", "
+                    + userPOJO.getPhone() + ", "
+                    + userPOJO.getWeatherService() + ")"
+            );
 
             statement.close();
             connection.close();
@@ -85,6 +91,14 @@ public class UserConnection {
     }
 
     public static boolean updateLanguage(long userId, String language){
+        return update(userId, language, "language");
+    }
+
+    public static boolean updateWeatherService(long userId, String weatherService){
+        return update(userId, weatherService, "weather_service");
+    }
+
+    private static boolean update(long userId, String arg, String column){
         Connection connection = null;
         Statement statement = null;
 
@@ -93,7 +107,7 @@ public class UserConnection {
             connection = DriverManager.getConnection(secureConfig.getProperty("db.url"), secureConfig.getProperty("db.user"), secureConfig.getProperty("db.password"));
             statement = connection.createStatement();
 
-            statement.executeUpdate("UPDATE users SET language = '" + language + "' WHERE user_id = " + userId);
+            statement.executeUpdate("UPDATE users SET " + column  + "= '" + arg + "' WHERE user_id = " + userId);
 
             statement.close();
             connection.close();

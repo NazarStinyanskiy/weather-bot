@@ -1,9 +1,9 @@
 package ua.nazariy.weather;
 
 import ua.nazariy.weather.config.Config;
-import ua.nazariy.weather.config.factory.FactoryStorage;
-import ua.nazariy.weather.config.factory.OpenWeatherMapFactory;
 import ua.nazariy.weather.config.parsers.ConfigParser;
+import ua.nazariy.weather.config.services.OpenWeatherMapService;
+import ua.nazariy.weather.config.services.ServiceStorage;
 import ua.nazariy.weather.lang.ENLang;
 import ua.nazariy.weather.lang.Language;
 import ua.nazariy.weather.lang.UALang;
@@ -20,7 +20,7 @@ public class Settings {
 
     private static Map<String, Language> languages;
 
-    public static void onStart(){
+    public static void onStart() {
         init();
 
         parseConfig();
@@ -28,11 +28,11 @@ public class Settings {
         registerFactories();
     }
 
-    private static void init(){
+    private static void init() {
         languages = new HashMap<>();
     }
 
-    private static void parseConfig(){
+    private static void parseConfig() {
         ConfigParser configParser = new ConfigParser(CONFIG_PATH);
         config = configParser.parse();
 
@@ -40,13 +40,13 @@ public class Settings {
         secureConfig = configParser.parse();
     }
 
-    private static void langSetup(){
+    private static void langSetup() {
         languages.put("en", new ENLang());
         languages.put("ua", new UALang());
     }
 
-    private static void registerFactories(){
-        FactoryStorage.registerFactory("weather", OpenWeatherMapFactory.class);
+    private static void registerFactories() {
+        ServiceStorage.registerFactory("open_weather_map", OpenWeatherMapService.class);
     }
 
     public static Config getConfig() {
