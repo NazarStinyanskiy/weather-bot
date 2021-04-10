@@ -15,7 +15,7 @@ public class LanguageCommand extends AbstractCommand{
 
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
-        String param = concatenateArgs(strings);
+        String param = concatArgs(strings);
         SendMessage sendMessage = new SendMessage().setChatId(chat.getId());
         Language chosenLanguage = defineLanguage(param);
 

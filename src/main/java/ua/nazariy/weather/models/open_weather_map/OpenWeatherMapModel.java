@@ -14,6 +14,30 @@ public class OpenWeatherMapModel implements Model {
     private String name;
     private int cod;
 
+    @Override
+    public Double getTemperature() {
+        if(getMain() != null){
+            return getMain().getTemp();
+        }
+        return null;
+    }
+
+    @Override
+    public Double getFeelsLikeTemperature() {
+        if(getMain() != null){
+            return getMain().getFeels_like();
+        }
+        return null;
+    }
+
+    @Override
+    public String getDescription() {
+        if(weather.length > 0){
+            return weather[0].getDescription();
+        }
+        return null;
+    }
+
     public Coord getCoordModel() {
         return coordModel;
     }

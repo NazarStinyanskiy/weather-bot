@@ -54,10 +54,17 @@ public abstract class AbstractCommand extends BotCommand {
         return null;
     }
 
-    protected String concatenateArgs(String[] arguments){
+    protected String concatArgs(String[] arguments){
+        return concatArgs(arguments, false);
+    }
+
+    protected String concatArgs(String[] arguments, boolean withSpaces){
         StringBuilder param = new StringBuilder();
-        for (String s : arguments) {
-            param.append(s);
+        for (int i = 0; i < arguments.length; i++) {
+            param.append(arguments[i]);
+            if(withSpaces && i < arguments.length - 1){
+                param.append(' ');
+            }
         }
         return param.toString();
     }
