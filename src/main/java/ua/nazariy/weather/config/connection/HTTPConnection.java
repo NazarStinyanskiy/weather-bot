@@ -11,19 +11,18 @@ public class HTTPConnection extends Connection {
             .version(HttpClient.Version.HTTP_2)
             .build();
 
-    private HttpRequest request;
+    private HttpResponse<String> response;
 
     public void request(String url) {
-        request = HttpRequest.newBuilder().GET().uri(URI.create(url)).build();
-    }
-
-    public HttpResponse<String> response() {
+        HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(url)).build();
         try {
-            return httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
+    }
 
-        return null;
+    public HttpResponse<String> response() {
+        return response;
     }
 }

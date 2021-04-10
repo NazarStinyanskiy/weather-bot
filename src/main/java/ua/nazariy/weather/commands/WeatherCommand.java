@@ -6,9 +6,11 @@ import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 import ua.nazariy.weather.config.services.AbstractWeatherService;
 import ua.nazariy.weather.config.services.ServiceStorage;
+import ua.nazariy.weather.config.services.exception.CityNotFoundException;
+import ua.nazariy.weather.config.services.exception.StatusCodeException;
 import ua.nazariy.weather.db.connection.UserConnection;
 import ua.nazariy.weather.db.pojo.UserPOJO;
-import ua.nazariy.weather.models.open_weather_map.OpenWeatherMapModel;
+import ua.nazariy.weather.models.Model;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +25,12 @@ public class WeatherCommand extends AbstractCommand{
         UserPOJO userPOJO = UserConnection.select(user.getId());
         SendMessage message = new SendMessage().setChatId(chat.getId());
 
+        if(strings.length == 0){
+            message.setText(language.NO_CITY_ENTERED);
+            execute(absSender, message);
+            return;
+        }
+
         if(userPOJO.getWeatherService() == null){
             message.setText(language.NO_SERVICE_CHOSEN);
             execute(absSender, message);
@@ -35,34 +43,50 @@ public class WeatherCommand extends AbstractCommand{
             execute(absSender, message);
             return;
         }
-        Map<String, String> parameters = new HashMap<>();
-        if (strings.length == 2) {
-            parameters.put("city", strings[0]);
-            parameters.put("country", strings[1]);
-        } else if (strings.length == 1) {
-            parameters.put("city", strings[0]);
-        }
 
-        parameters.put("language", language.LANGUAGE_SHORT);
-        service.setup(parameters);
-
-        if(((OpenWeatherMapModel) service.getWeather()).getCod() == 400){
-            message.setText(language.NO_CITY_ENTERED);
-        } else if(((OpenWeatherMapModel) service.getWeather()).getCod() == 404){
-            message.setText(language.CITY_NOT_FOUND);
-        } else if(((OpenWeatherMapModel) service.getWeather()).getCod() == 200){
-            message.setText(createAnswer(service));
-        } else {
-            message.setText(language.INTERNAL_ERROR);
-        }
-
+        service.setup(createParameters(strings));
+        setupMessage(message, service);
         execute(absSender, message);
     }
 
-    private String createAnswer(AbstractWeatherService service){
-        OpenWeatherMapModel model = (OpenWeatherMapModel) service.getWeather();
-        return language.TEMPERATURE + model.getMain().getTemp() + '\n' +
-                language.FEELS_LIKE + model.getMain().getFeels_like() + '\n' +
-                model.getWeather()[0].getDescription();
+    private Map<String, String> createParameters(String[] strings){
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("city", concatArgs(strings, true));
+        parameters.put("language", language.LANGUAGE_SHORT);
+        parameters.put("units", "metric");
+        return parameters;
+    }
+
+    private SendMessage setupMessage(SendMessage message, AbstractWeatherService service){
+        try {
+            Model model = service.getModel();
+            message.setText(createAnswer(model));
+        } catch (CityNotFoundException e) {
+            message.setText(language.CITY_NOT_FOUND);
+        } catch (StatusCodeException e) {
+            message.setText(language.INTERNAL_ERROR);
+        }
+
+        return message;
+    }
+
+    private String createAnswer(Model model){
+        StringBuilder answer = new StringBuilder();
+        if(model.getTemperature() != null){
+            answer.append(language.TEMPERATURE).append(formattedTemperature(model.getTemperature())).append('\n');
+        }
+
+        if(model.getFeelsLikeTemperature() != null){
+            answer.append(language.FEELS_LIKE).append(formattedTemperature(model.getFeelsLikeTemperature())).append('\n');
+        }
+
+        if(model.getDescription() != null){
+            answer.append(model.getDescription());
+        }
+        return answer.toString();
+    }
+
+    private String formattedTemperature(double temp){
+        return temp >= 0 ? "+" + Math.round(temp) : Math.round(temp) + "";
     }
 }

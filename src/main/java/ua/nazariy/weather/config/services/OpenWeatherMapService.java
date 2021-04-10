@@ -3,7 +3,9 @@ package ua.nazariy.weather.config.services;
 import ua.nazariy.weather.Settings;
 import ua.nazariy.weather.config.connection.HTTPConnection;
 import ua.nazariy.weather.config.parsers.json.OpenWeatherMapJSONParser;
-import ua.nazariy.weather.models.Model;
+import ua.nazariy.weather.config.services.exception.CityNotFoundException;
+import ua.nazariy.weather.config.services.exception.StatusCodeException;
+import ua.nazariy.weather.models.open_weather_map.OpenWeatherMapModel;
 
 import java.util.Map;
 
@@ -24,29 +26,37 @@ public class OpenWeatherMapService extends AbstractWeatherService {
             qBuilder.append(params.get("city"));
         }
 
-        if(params.containsKey("country")){
+        if (params.containsKey("country")) {
             qBuilder.append(',').append(params.get("country"));
         }
 
-        if(!qBuilder.isEmpty()){
+        if (!qBuilder.isEmpty()) {
             urlBuilder.append("q=").append(qBuilder).append("&");
         }
 
-        if(params.containsKey("language")){
+        if (params.containsKey("language")) {
             urlBuilder.append("lang=").append(params.get("language")).append("&");
         }
 
-        urlBuilder.append("units=metric&");
-        urlBuilder.append("appid=").append(Settings.getSecureConfig().getProperty("open.weather.map.appid"));
+        if (params.containsKey("units")) {
+            urlBuilder.append("units=").append(params.get("units")).append("&");
+        }
 
-        url = urlBuilder.toString();
+        urlBuilder.append("appid=").append(Settings.getSecureConfig().getProperty("open.weather.map.appid"));
+        url = urlBuilder.toString().replaceAll(" ", "%20");
     }
 
     @Override
-    public Model getWeather() {
+    public OpenWeatherMapModel getModel() throws CityNotFoundException, StatusCodeException {
         HTTPConnection connection = new HTTPConnection();
         connection.request(url);
-        String json = connection.response().body();
-        return parser.parse(json);
+        if (connection.response().statusCode() == 200) {
+            String json = connection.response().body();
+            return (OpenWeatherMapModel) parser.parse(json);
+        } else if (connection.response().statusCode() == 404) {
+            throw new CityNotFoundException();
+        } else {
+            throw new StatusCodeException();
+        }
     }
 }
