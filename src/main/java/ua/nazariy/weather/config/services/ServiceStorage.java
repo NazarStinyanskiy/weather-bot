@@ -7,15 +7,15 @@ import java.util.Map;
 public class ServiceStorage {
     private static final Map<String, AbstractWeatherService> factories = new HashMap<>();
 
-    public static void registerFactory(String key, Class<? extends AbstractWeatherService> factory) {
+    public static void registerService(String key, Class<? extends AbstractWeatherService> service) {
         try {
-            factories.put(key, factory.getDeclaredConstructor().newInstance());
+            factories.put(key, service.getDeclaredConstructor().newInstance());
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
         }
     }
 
-    public static AbstractWeatherService getFactory(String key) {
+    public static AbstractWeatherService getService(String key) {
         if (factories.containsKey(key)) {
             return factories.get(key);
         }

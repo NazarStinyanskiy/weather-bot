@@ -25,7 +25,7 @@ public class Settings {
 
         parseConfig();
         langSetup();
-        registerFactories();
+        registerService();
     }
 
     private static void init() {
@@ -45,8 +45,8 @@ public class Settings {
         languages.put("ua", new UALang());
     }
 
-    private static void registerFactories() {
-        ServiceStorage.registerFactory("open_weather_map", OpenWeatherMapService.class);
+    private static void registerService() {
+        ServiceStorage.registerService("open_weather_map", OpenWeatherMapService.class);
     }
 
     public static Config getConfig() {

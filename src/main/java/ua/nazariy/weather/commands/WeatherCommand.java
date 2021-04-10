@@ -15,7 +15,7 @@ import ua.nazariy.weather.models.Model;
 import java.util.HashMap;
 import java.util.Map;
 
-public class WeatherCommand extends AbstractCommand{
+public class WeatherCommand extends AbstractCommand {
     public WeatherCommand(String commandIdentifier, String description) {
         super(commandIdentifier, description);
     }
@@ -25,20 +25,20 @@ public class WeatherCommand extends AbstractCommand{
         UserPOJO userPOJO = UserConnection.select(user.getId());
         SendMessage message = new SendMessage().setChatId(chat.getId());
 
-        if(strings.length == 0){
+        if (strings.length == 0) {
             message.setText(language.NO_CITY_ENTERED);
             execute(absSender, message);
             return;
         }
 
-        if(userPOJO.getWeatherService() == null){
+        if (userPOJO.getWeatherService() == null) {
             message.setText(language.NO_SERVICE_CHOSEN);
             execute(absSender, message);
             return;
         }
 
-        AbstractWeatherService service = ServiceStorage.getFactory(userPOJO.getWeatherService());
-        if(service == null){
+        AbstractWeatherService service = ServiceStorage.getService(userPOJO.getWeatherService());
+        if (service == null) {
             message.setText(language.NO_SUCH_SERVICE);
             execute(absSender, message);
             return;
@@ -49,7 +49,7 @@ public class WeatherCommand extends AbstractCommand{
         execute(absSender, message);
     }
 
-    private Map<String, String> createParameters(String[] strings){
+    private Map<String, String> createParameters(String[] strings) {
         Map<String, String> parameters = new HashMap<>();
         parameters.put("city", concatArgs(strings, true));
         parameters.put("language", language.LANGUAGE_SHORT);
@@ -57,7 +57,7 @@ public class WeatherCommand extends AbstractCommand{
         return parameters;
     }
 
-    private SendMessage setupMessage(SendMessage message, AbstractWeatherService service){
+    private void setupMessage(SendMessage message, AbstractWeatherService service) {
         try {
             Model model = service.getModel();
             message.setText(createAnswer(model));
@@ -66,27 +66,25 @@ public class WeatherCommand extends AbstractCommand{
         } catch (StatusCodeException e) {
             message.setText(language.INTERNAL_ERROR);
         }
-
-        return message;
     }
 
-    private String createAnswer(Model model){
+    private String createAnswer(Model model) {
         StringBuilder answer = new StringBuilder();
-        if(model.getTemperature() != null){
+        if (model.getTemperature() != null) {
             answer.append(language.TEMPERATURE).append(formattedTemperature(model.getTemperature())).append('\n');
         }
 
-        if(model.getFeelsLikeTemperature() != null){
+        if (model.getFeelsLikeTemperature() != null) {
             answer.append(language.FEELS_LIKE).append(formattedTemperature(model.getFeelsLikeTemperature())).append('\n');
         }
 
-        if(model.getDescription() != null){
+        if (model.getDescription() != null) {
             answer.append(model.getDescription());
         }
         return answer.toString();
     }
 
-    private String formattedTemperature(double temp){
+    private String formattedTemperature(double temp) {
         return temp >= 0 ? "+" + Math.round(temp) : Math.round(temp) + "";
     }
 }
