@@ -24,8 +24,10 @@ public class ENLang extends Language {
 
         HELP_COMMAND =
                 """
-                /weather - to choose weather service
-                /lang [language] - to choose language. Example /lang en - To use english""";
+                /service - to choose weather service
+                /lang [language] - to choose language. Example /lang en - To use english
+                /langs - to see all available languages
+                /weather [city] - to see weather at the [city]""";
 
          NO_SUCH_LANGUAGE =
                  """
