@@ -36,7 +36,7 @@ public class Settings {
         ConfigParser configParser = new ConfigParser(CONFIG_PATH);
         config = configParser.parse();
 
-        configParser = new ConfigParser(SECURE_CONFIG_PATH);
+        configParser.changePath(SECURE_CONFIG_PATH);
         secureConfig = configParser.parse();
     }
 
