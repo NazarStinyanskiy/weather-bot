@@ -3,7 +3,6 @@ package ua.nazariy.weather.lang;
 import java.util.HashMap;
 import java.util.Map;
 
-// TODO: make default language, that will be overridden by supported language
 public class Language {
     private Map<String, String> speeches;
 

@@ -1,8 +1,8 @@
 package ua.nazariy.weather;
 
 import ua.nazariy.weather.config.Config;
-import ua.nazariy.weather.config.parsers.ConfigParser;
-import ua.nazariy.weather.config.parsers.LangParser;
+import ua.nazariy.weather.config.parsers.config.ConfigParser;
+import ua.nazariy.weather.config.parsers.config.LangParser;
 import ua.nazariy.weather.config.services.OpenWeatherMapService;
 import ua.nazariy.weather.config.services.ServiceStorage;
 import ua.nazariy.weather.lang.Language;
@@ -25,7 +25,7 @@ public class Settings {
 
         parseConfig();
         langSetup();
-        registerService();
+        registerServices();
     }
 
     private static void init() {
@@ -41,7 +41,7 @@ public class Settings {
     }
 
     private static void langSetup() {
-        File root = new File("src/main/resources/langs");
+        File root = new File(config.getProperty("lang.dir"));
         if (!root.isDirectory()) {
             System.err.println("[WARN] " + root + " is not a directory. Can not find languages!");
             return;
@@ -56,11 +56,11 @@ public class Settings {
         LangParser parser = new LangParser();
         for (String path : paths) {
             String lang = path.substring(0, path.indexOf('.'));
-            languages.put(lang, parser.parse(root + "/" +path));
+            languages.put(lang, parser.parse(root + "/" + path));
         }
     }
 
-    private static void registerService() {
+    private static void registerServices() {
         ServiceStorage.registerService("open_weather_map", OpenWeatherMapService.class);
     }
 
