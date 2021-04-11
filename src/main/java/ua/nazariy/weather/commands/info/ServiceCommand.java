@@ -1,11 +1,10 @@
-package ua.nazariy.weather.commands;
+package ua.nazariy.weather.commands.info;
 
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
-public class ServiceCommand extends AbstractCommand {
+public class ServiceCommand extends InfoCommand {
 
     public ServiceCommand(String commandIdentifier, String description) {
         super(commandIdentifier, description);
@@ -13,8 +12,6 @@ public class ServiceCommand extends AbstractCommand {
 
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(chat.getId()).setText(language.SERVICE_COMMAND);
-        execute(absSender, sendMessage);
+        super.execute(absSender, chat.getId(), language.SERVICE_COMMAND);
     }
 }
