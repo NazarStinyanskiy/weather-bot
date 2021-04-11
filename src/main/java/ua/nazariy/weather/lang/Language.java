@@ -1,22 +1,32 @@
 package ua.nazariy.weather.lang;
 
+import java.util.HashMap;
+import java.util.Map;
+
+// TODO: make default language, that will be overridden by supported language
 public class Language {
-    public String LANGUAGE_FULL;
-    public String LANGUAGE_SHORT;
+    private Map<String, String> speeches;
 
-    public String START_GREETINGS;
-    public String SERVICE_COMMAND;
-    public String HELP_COMMAND;
-    public String LANGUAGE_WERE_SUCCESSFULLY_CHANGED;
-    public String SERVICE_SUCCESSFULLY_CHANGED;
+    public Language(){
+        speeches = new HashMap<>();
+    }
 
-    public String INTERNAL_ERROR;
-    public String NO_CITY_ENTERED;
-    public String CITY_NOT_FOUND;
-    public String NO_SUCH_SERVICE;
-    public String NO_SERVICE_CHOSEN;
-    public String NO_SUCH_LANGUAGE;
+    public void setSpeech(String key, String value){
+        speeches.put(key, value);
+    }
 
-    public String TEMPERATURE;
-    public String FEELS_LIKE;
+    public String getSpeech(String key){
+        if(speeches.containsKey(key)){
+            return speeches.get(key);
+        }
+
+        if(speeches.containsKey("internal.error")){
+            System.err.println("[WARN] No such speech by key: " + key);
+            return speeches.get("internal.error");
+        } else {
+            System.err.println("[WARN] internal.error key do not set");
+            return null;
+        }
+
+    }
 }

@@ -12,6 +12,6 @@ public class HelpCommand extends InfoCommand{
 
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
-        super.execute(absSender, chat.getId(), language.HELP_COMMAND);
+        super.execute(absSender, chat.getId(), language.getSpeech("help.command"));
     }
 }

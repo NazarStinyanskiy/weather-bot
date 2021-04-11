@@ -20,13 +20,13 @@ public class LanguageCommand extends AbstractCommand{
         Language chosenLanguage = defineLanguage(param);
 
         if(chosenLanguage == null){
-            sendMessage.setText(language.NO_SUCH_LANGUAGE);
+            sendMessage.setText(language.getSpeech("no.such.language"));
         } else {
             if(UserConnection.updateLanguage(user.getId(), param)){
                 language = chosenLanguage;
-                sendMessage.setText(language.LANGUAGE_WERE_SUCCESSFULLY_CHANGED);
+                sendMessage.setText(language.getSpeech("language.successfully.changed"));
             } else {
-                sendMessage.setText(language.INTERNAL_ERROR);
+                sendMessage.setText(language.getSpeech("internal.error"));
             }
         }
 

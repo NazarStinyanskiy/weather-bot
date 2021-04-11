@@ -17,9 +17,9 @@ public class OpenWeatherMapCommand extends AbstractCommand{
         SendMessage message = new SendMessage().setChatId(chat.getId());
 
         if(result){
-            message.setText(language.SERVICE_SUCCESSFULLY_CHANGED);
+            message.setText(language.getSpeech("service.successfully.changed"));
         } else {
-            message.setText(language.INTERNAL_ERROR);
+            message.setText(language.getSpeech("internal.error"));
         }
 
         execute(absSender, message);

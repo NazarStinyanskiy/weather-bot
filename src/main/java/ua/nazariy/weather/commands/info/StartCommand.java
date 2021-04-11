@@ -12,6 +12,6 @@ public class StartCommand extends InfoCommand{
 
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
-        super.execute(absSender, chat.getId(), language.START_GREETINGS);
+        super.execute(absSender, chat.getId(), language.getSpeech("start.greetings"));
     }
 }
