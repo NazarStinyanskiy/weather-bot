@@ -16,17 +16,21 @@ public class ConfigParser implements Parser{
         setup(path);
     }
 
-    public void init() {
+    private void init() {
         config = new Config();
         properties = new Properties();
     }
 
-    public void setup(String path) {
+    private void setup(String path) {
         try {
             properties.load(new FileReader(path));
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void changePath(String path){
+        setup(path);
     }
 
     public Config parse() {
