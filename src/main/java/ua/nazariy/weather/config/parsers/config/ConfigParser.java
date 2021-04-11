@@ -1,13 +1,14 @@
-package ua.nazariy.weather.config.parsers;
+package ua.nazariy.weather.config.parsers.config;
 
 import ua.nazariy.weather.config.Config;
+import ua.nazariy.weather.config.parsers.Parser;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Properties;
 
-public class ConfigParser implements Parser{
+public class ConfigParser implements Parser {
     private Config config;
     private Properties properties;
 
@@ -34,6 +35,7 @@ public class ConfigParser implements Parser{
     }
 
     public void changePath(String path){
+        init();
         setup(path);
     }
 
