@@ -26,20 +26,20 @@ public class WeatherCommand extends AbstractCommand {
         SendMessage message = new SendMessage().setChatId(chat.getId());
 
         if (strings.length == 0) {
-            message.setText(language.NO_CITY_ENTERED);
+            message.setText(language.getSpeech("no.city.entered"));
             execute(absSender, message);
             return;
         }
 
         if (userPOJO.getWeatherService() == null) {
-            message.setText(language.NO_SERVICE_CHOSEN);
+            message.setText(language.getSpeech("no.service.chosen"));
             execute(absSender, message);
             return;
         }
 
         AbstractWeatherService service = ServiceStorage.getService(userPOJO.getWeatherService());
         if (service == null) {
-            message.setText(language.NO_SUCH_SERVICE);
+            message.setText(language.getSpeech("no.such.service"));
             execute(absSender, message);
             return;
         }
@@ -52,7 +52,7 @@ public class WeatherCommand extends AbstractCommand {
     private Map<String, String> createParameters(String[] strings) {
         Map<String, String> parameters = new HashMap<>();
         parameters.put("city", concatArgs(strings, true));
-        parameters.put("language", language.LANGUAGE_SHORT);
+        parameters.put("language", language.getSpeech("language.short"));
         parameters.put("units", "metric");
         return parameters;
     }
@@ -62,20 +62,20 @@ public class WeatherCommand extends AbstractCommand {
             Model model = service.getModel();
             message.setText(createAnswer(model));
         } catch (CityNotFoundException e) {
-            message.setText(language.CITY_NOT_FOUND);
+            message.setText(language.getSpeech("city.not.found"));
         } catch (StatusCodeException e) {
-            message.setText(language.INTERNAL_ERROR);
+            message.setText(language.getSpeech("internal.error"));
         }
     }
 
     private String createAnswer(Model model) {
         StringBuilder answer = new StringBuilder();
         if (model.getTemperature() != null) {
-            answer.append(language.TEMPERATURE).append(formattedTemperature(model.getTemperature())).append('\n');
+            answer.append(language.getSpeech("temperature")).append(" ").append(formattedTemperature(model.getTemperature())).append('\n');
         }
 
         if (model.getFeelsLikeTemperature() != null) {
-            answer.append(language.FEELS_LIKE).append(formattedTemperature(model.getFeelsLikeTemperature())).append('\n');
+            answer.append(language.getSpeech("feels.like")).append(" ").append(formattedTemperature(model.getFeelsLikeTemperature())).append('\n');
         }
 
         if (model.getDescription() != null) {

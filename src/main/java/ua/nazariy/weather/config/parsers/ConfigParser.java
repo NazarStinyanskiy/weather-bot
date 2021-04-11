@@ -11,17 +11,21 @@ public class ConfigParser implements Parser{
     private Config config;
     private Properties properties;
 
+    public ConfigParser(){
+        init();
+    }
+
     public ConfigParser(String path) {
         init();
         setup(path);
     }
 
-    private void init() {
+    protected void init() {
         config = new Config();
         properties = new Properties();
     }
 
-    private void setup(String path) {
+    protected void setup(String path) {
         try {
             properties.load(new FileReader(path));
         } catch (IOException e) {

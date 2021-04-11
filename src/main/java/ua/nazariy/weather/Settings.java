@@ -2,12 +2,12 @@ package ua.nazariy.weather;
 
 import ua.nazariy.weather.config.Config;
 import ua.nazariy.weather.config.parsers.ConfigParser;
+import ua.nazariy.weather.config.parsers.LangParser;
 import ua.nazariy.weather.config.services.OpenWeatherMapService;
 import ua.nazariy.weather.config.services.ServiceStorage;
-import ua.nazariy.weather.lang.ENLang;
 import ua.nazariy.weather.lang.Language;
-import ua.nazariy.weather.lang.UALang;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,8 +41,23 @@ public class Settings {
     }
 
     private static void langSetup() {
-        languages.put("en", new ENLang());
-        languages.put("ua", new UALang());
+        File root = new File("src/main/resources/langs");
+        if (!root.isDirectory()) {
+            System.err.println("[WARN] " + root + " is not a directory. Can not find languages!");
+            return;
+        }
+
+        String[] paths = root.list();
+        if(paths == null){
+            System.err.println("[WARN] Can not find languages in " + root);
+            return;
+        }
+
+        LangParser parser = new LangParser();
+        for (String path : paths) {
+            String lang = path.substring(0, path.indexOf('.'));
+            languages.put(lang, parser.parse(root + "/" +path));
+        }
     }
 
     private static void registerService() {

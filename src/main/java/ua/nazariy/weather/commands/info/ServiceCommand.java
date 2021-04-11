@@ -12,6 +12,6 @@ public class ServiceCommand extends InfoCommand {
 
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
-        super.execute(absSender, chat.getId(), language.SERVICE_COMMAND);
+        super.execute(absSender, chat.getId(), language.getSpeech("service.command"));
     }
 }
