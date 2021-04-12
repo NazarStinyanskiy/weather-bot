@@ -8,6 +8,12 @@ public class WeatherStackModel implements Model {
     private Request request;
     private Location location;
     private Current current;
+    private Error error;
+
+    @Override
+    public String getPlaceName() {
+        return location.getName() + " - " + location.getCountry();
+    }
 
     @Override
     public Double getTemperature() {
@@ -48,5 +54,13 @@ public class WeatherStackModel implements Model {
 
     public void setCurrent(Current current) {
         this.current = current;
+    }
+
+    public Error getError() {
+        return error;
+    }
+
+    public void setError(Error error) {
+        this.error = error;
     }
 }
