@@ -70,6 +70,11 @@ public class WeatherCommand extends AbstractCommand {
 
     private String createAnswer(Model model) {
         StringBuilder answer = new StringBuilder();
+
+        if(model.getPlaceName() != null){
+            answer.append(language.getSpeech("info.for")).append(" ").append(model.getPlaceName()).append('\n');
+        }
+
         if (model.getTemperature() != null) {
             answer.append(language.getSpeech("temperature")).append(" ").append(formattedTemperature(model.getTemperature())).append('\n');
         }

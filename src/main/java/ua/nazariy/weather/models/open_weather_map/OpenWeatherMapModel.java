@@ -9,10 +9,16 @@ public class OpenWeatherMapModel implements Model {
     private Main main;
     private Wind windModel;
     private String base;
+    private Sys sys;
     private int timezone;
     private long id;
     private String name;
     private int cod;
+
+    @Override
+    public String getPlaceName() {
+        return name + " - " + sys.getCountry();
+    }
 
     @Override
     public Double getTemperature() {
@@ -76,6 +82,14 @@ public class OpenWeatherMapModel implements Model {
 
     public void setWindModel(Wind windModel) {
         this.windModel = windModel;
+    }
+
+    public Sys getSys() {
+        return sys;
+    }
+
+    public void setSys(Sys sys) {
+        this.sys = sys;
     }
 
     public String getBase() {

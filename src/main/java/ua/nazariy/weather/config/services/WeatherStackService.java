@@ -40,13 +40,18 @@ public class WeatherStackService extends AbstractWeatherService{
     public WeatherStackModel getModel() throws CityNotFoundException, StatusCodeException {
         HTTPConnection connection = new HTTPConnection();
         connection.request(url);
-        if (connection.response().statusCode() == 200) {
-            String json = connection.response().body();
-            return (WeatherStackModel) parser.parse(json);
-        } else if (connection.response().statusCode() == 404) {
+        String json = connection.response().body();
+        WeatherStackModel model = (WeatherStackModel) parser.parse(json);
+        if (model != null && model.getError() != null) {
+//            if (model.getError().getCode() == 404) {
+//                throw new CityNotFoundException();
+//            } else {
+//                throw new StatusCodeException();
+//            }
+
             throw new CityNotFoundException();
-        } else {
-            throw new StatusCodeException();
         }
+
+        return model;
     }
 }
