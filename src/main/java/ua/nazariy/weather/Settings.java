@@ -5,6 +5,7 @@ import ua.nazariy.weather.config.parsers.config.ConfigParser;
 import ua.nazariy.weather.config.parsers.config.LangParser;
 import ua.nazariy.weather.config.services.OpenWeatherMapService;
 import ua.nazariy.weather.config.services.ServiceStorage;
+import ua.nazariy.weather.config.services.WeatherStackService;
 import ua.nazariy.weather.lang.Language;
 
 import java.io.File;
@@ -62,6 +63,7 @@ public class Settings {
 
     private static void registerServices() {
         ServiceStorage.registerService("open_weather_map", OpenWeatherMapService.class);
+        ServiceStorage.registerService("weatherstack", WeatherStackService.class);
     }
 
     public static Config getConfig() {
