@@ -5,15 +5,23 @@ public class UserPOJO {
     private String language;
     private String phone;
     private String weatherService;
+    private String state;
+
+    public interface State {
+        String START = "start";
+        String SERVICE = "service";
+        String WEATHER = "weather";
+    }
 
     public UserPOJO(){
 
     }
 
-    public UserPOJO(long userId, String language, String phone) {
+    public UserPOJO(long userId, String language, String phone, String state) {
         this.userId = userId;
         this.language = language;
         this.phone = phone;
+        this.state = state;
     }
 
     public long getUserId() {
@@ -46,5 +54,13 @@ public class UserPOJO {
 
     public void setWeatherService(String weatherService) {
         this.weatherService = weatherService;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }

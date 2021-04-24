@@ -30,6 +30,7 @@ public class UserConnection {
                 user.setLanguage(resultSet.getString("language"));
                 user.setPhone(resultSet.getString("phone_number"));
                 user.setWeatherService(resultSet.getString("weather_service"));
+                user.setState(resultSet.getString("state"));
             } while (resultSet.next());
 
             resultSet.close();
@@ -66,7 +67,8 @@ public class UserConnection {
                     + userPOJO.getUserId() + ", "
                     + userPOJO.getLanguage() + ", "
                     + userPOJO.getPhone() + ", "
-                    + userPOJO.getWeatherService() + ")"
+                    + userPOJO.getWeatherService() + ", "
+                    + "'" + userPOJO.getState() + "'" + ")"
             );
 
             statement.close();
@@ -96,6 +98,10 @@ public class UserConnection {
 
     public static boolean updateWeatherService(long userId, String weatherService){
         return update(userId, weatherService, "weather_service");
+    }
+
+    public static boolean updateState(long userId, String state){
+        return update(userId, state, "state");
     }
 
     private static boolean update(long userId, String arg, String column){

@@ -3,11 +3,19 @@ package ua.nazariy.weather;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ua.nazariy.weather.commands.*;
-import ua.nazariy.weather.commands.info.HelpCommand;
-import ua.nazariy.weather.commands.info.ServiceCommand;
-import ua.nazariy.weather.commands.info.StartCommand;
+import ua.nazariy.weather.commands.no_slash.AbstractNoSlashCommand;
+import ua.nazariy.weather.commands.no_slash.NoSlashCommandStorage;
+import ua.nazariy.weather.commands.no_slash.OpenWeatherMapCommand;
+import ua.nazariy.weather.commands.no_slash.WeatherStackCommand;
+import ua.nazariy.weather.commands.slash.HelpCommand;
+import ua.nazariy.weather.commands.slash.LanguageCommand;
+import ua.nazariy.weather.commands.slash.ServiceCommand;
+import ua.nazariy.weather.commands.slash.StartCommand;
+import ua.nazariy.weather.commands.slash.LangsCommand;
+import ua.nazariy.weather.commands.slash.WeatherCommand;
+
 import ua.nazariy.weather.config.Config;
+import ua.nazariy.weather.db.pojo.UserPOJO;
 
 public class Bot extends TelegramLongPollingCommandBot {
     private final String BOT_TOKEN;
@@ -22,9 +30,10 @@ public class Bot extends TelegramLongPollingCommandBot {
         register(new ServiceCommand("/service", "switching weather service"));
         register(new LanguageCommand("/lang", "switching language"));
         register(new LangsCommand("/langs", "shows all available languages"));
-        register(new OpenWeatherMapCommand("/open_weather_map", "choosing open weather map service"));
-        register(new WeatherStackCommand("/weatherstack", "choosing weatherstack service"));
         register(new WeatherCommand("/weather", "sending current weather"));
+
+        NoSlashCommandStorage.register(new OpenWeatherMapCommand("Open Weather Map", UserPOJO.State.SERVICE));
+        NoSlashCommandStorage.register(new WeatherStackCommand("Weatherstack", UserPOJO.State.SERVICE));
     }
 
     @Override
@@ -34,7 +43,12 @@ public class Bot extends TelegramLongPollingCommandBot {
 
     @Override
     public void processNonCommandUpdate(Update update) {
+        AbstractNoSlashCommand command = NoSlashCommandStorage.getCommand(update.getMessage().getText());
+        if(command == null){
+            return;
+        }
 
+        command.processMessage(update, this);
     }
 
     @Override

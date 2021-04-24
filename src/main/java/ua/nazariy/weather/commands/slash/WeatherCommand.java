@@ -1,9 +1,10 @@
-package ua.nazariy.weather.commands;
+package ua.nazariy.weather.commands.slash;
 
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.bots.AbsSender;
+import ua.nazariy.weather.commands.AbstractCommand;
 import ua.nazariy.weather.config.services.AbstractWeatherService;
 import ua.nazariy.weather.config.services.ServiceStorage;
 import ua.nazariy.weather.config.services.exception.CityNotFoundException;
@@ -23,7 +24,7 @@ public class WeatherCommand extends AbstractCommand {
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
         UserPOJO userPOJO = UserConnection.select(user.getId());
-        SendMessage message = new SendMessage().setChatId(chat.getId());
+        SendMessage message = getSendMessage(chat.getId());
 
         if (strings.length == 0) {
             message.setText(language.getSpeech("no.city.entered"));
