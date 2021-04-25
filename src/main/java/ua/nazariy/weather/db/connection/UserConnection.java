@@ -16,11 +16,10 @@ public class UserConnection {
 
         try {
             Class.forName(secureConfig.getProperty("db.driver"));
-            connection = DriverManager.getConnection(secureConfig.getProperty("db.url"), secureConfig.getProperty("db.user"), secureConfig.getProperty("db.password"));
-            statement = connection.createStatement();
+            connection = getConnection();
+            statement = getStatement(connection);
 
             ResultSet resultSet = statement.executeQuery("SELECT * FROM users WHERE user_id = " + userId);
-
             if(!resultSet.next()){
                 return null;
             }
@@ -39,16 +38,7 @@ public class UserConnection {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            try {
-                if (statement != null) statement.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
-                if (connection != null) connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            closeConnection(connection, statement);
         }
 
         return user;
@@ -60,8 +50,8 @@ public class UserConnection {
 
         try {
             Class.forName(secureConfig.getProperty("db.driver"));
-            connection = DriverManager.getConnection(secureConfig.getProperty("db.url"), secureConfig.getProperty("db.user"), secureConfig.getProperty("db.password"));
-            statement = connection.createStatement();
+            connection = getConnection();
+            statement = getStatement(connection);
 
             statement.executeUpdate("INSERT INTO users VALUES ("
                     + userPOJO.getUserId() + ", "
@@ -77,16 +67,7 @@ public class UserConnection {
             e.printStackTrace();
             return false;
         } finally {
-            try {
-                if (statement != null) statement.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
-                if (connection != null) connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            closeConnection(connection, statement);
         }
 
         return true;
@@ -110,8 +91,8 @@ public class UserConnection {
 
         try {
             Class.forName(secureConfig.getProperty("db.driver"));
-            connection = DriverManager.getConnection(secureConfig.getProperty("db.url"), secureConfig.getProperty("db.user"), secureConfig.getProperty("db.password"));
-            statement = connection.createStatement();
+            connection = getConnection();
+            statement = getStatement(connection);
 
             statement.executeUpdate("UPDATE users SET " + column  + "= '" + arg + "' WHERE user_id = " + userId);
 
@@ -121,18 +102,30 @@ public class UserConnection {
             e.printStackTrace();
             return false;
         } finally {
-            try {
-                if (statement != null) statement.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
-                if (connection != null) connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            closeConnection(connection, statement);
         }
 
         return true;
+    }
+
+    private static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(secureConfig.getProperty("db.url"), secureConfig.getProperty("db.user"), secureConfig.getProperty("db.password"));
+    }
+
+    private static Statement getStatement(Connection connection) throws SQLException {
+        return connection.createStatement();
+    }
+
+    private static void closeConnection(Connection connection, Statement statement){
+        try {
+            if (statement != null) statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            if (connection != null) connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
