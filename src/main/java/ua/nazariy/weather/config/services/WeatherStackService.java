@@ -4,9 +4,6 @@ import ua.nazariy.weather.Settings;
 import ua.nazariy.weather.config.connection.HTTPConnection;
 import ua.nazariy.weather.config.parsers.json.WeatherStackParserJSON;
 import ua.nazariy.weather.config.services.exception.CityNotFoundException;
-import ua.nazariy.weather.config.services.exception.StatusCodeException;
-import ua.nazariy.weather.models.Model;
-import ua.nazariy.weather.models.open_weather_map.OpenWeatherMapModel;
 import ua.nazariy.weather.models.weatherstack.WeatherStackModel;
 
 import java.util.Map;
@@ -37,18 +34,12 @@ public class WeatherStackService extends AbstractWeatherService{
     }
 
     @Override
-    public WeatherStackModel getModel() throws CityNotFoundException, StatusCodeException {
+    public WeatherStackModel getModel() throws CityNotFoundException {
         HTTPConnection connection = new HTTPConnection();
         connection.request(url);
         String json = connection.response().body();
         WeatherStackModel model = (WeatherStackModel) parser.parse(json);
         if (model != null && model.getError() != null) {
-//            if (model.getError().getCode() == 404) {
-//                throw new CityNotFoundException();
-//            } else {
-//                throw new StatusCodeException();
-//            }
-
             throw new CityNotFoundException();
         }
 
