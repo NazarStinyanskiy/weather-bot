@@ -37,6 +37,7 @@ public class ServiceCommand extends AbstractCommand {
         row.add("Weatherstack");
         keyboard.add(row);
         keyboardMarkup.setKeyboard(keyboard);
+        keyboardMarkup.setResizeKeyboard(true);
         return keyboardMarkup;
     }
 }

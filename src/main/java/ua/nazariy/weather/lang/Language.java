@@ -4,6 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Language {
+
+    public interface Flags{
+        String EN = "\uD83C\uDDF1\uD83C\uDDF7";
+        String RU = "\uD83C\uDDF7\uD83C\uDDFA";
+        String UA = "\uD83C\uDDFA\uD83C\uDDE6";
+    }
+
     private Map<String, String> speeches;
 
     public Language(){

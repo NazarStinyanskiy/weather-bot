@@ -10,6 +10,7 @@ public class UserPOJO {
     public interface State {
         String START = "start";
         String SERVICE = "service";
+        String LANG = "lang";
         String WEATHER = "weather";
     }
 
