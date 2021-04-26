@@ -19,7 +19,6 @@ public abstract class AbstractNoSlashCommand implements Command {
     }
 
     public final void processMessage(Update update, AbsSender absSender){
-        // if user-state equals this.state -> process message
         User from = update.getMessage().getFrom();
         writeUserIntoDB(from.getId());
         if(!validateUserState(from.getId(), state)){
