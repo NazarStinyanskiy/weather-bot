@@ -7,7 +7,7 @@ import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ua.nazariy.weather.Settings;
 import ua.nazariy.weather.db.connection.UserConnection;
-import ua.nazariy.weather.db.pojo.UserPOJO;
+import ua.nazariy.weather.db.pojo.UserModel;
 import ua.nazariy.weather.lang.Language;
 
 import java.util.Map;
@@ -43,11 +43,11 @@ public interface Command {
     }
 
     default void writeUserIntoDB(long id){
-        UserPOJO user = UserConnection.select(id);
+        UserModel user = UserConnection.select(id);
         if(user == null){
-            user = new UserPOJO();
+            user = new UserModel();
             user.setUserId(id);
-            user.setState(UserPOJO.State.START);
+            user.setState(UserModel.State.START);
             UserConnection.write(user);
         }
     }

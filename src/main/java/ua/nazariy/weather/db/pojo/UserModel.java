@@ -1,6 +1,6 @@
 package ua.nazariy.weather.db.pojo;
 
-public class UserPOJO {
+public class UserModel {
     private long userId;
     private String language;
     private String phone;
@@ -14,11 +14,11 @@ public class UserPOJO {
         String WEATHER = "weather";
     }
 
-    public UserPOJO(){
+    public UserModel(){
 
     }
 
-    public UserPOJO(long userId, String language, String phone, String state) {
+    public UserModel(long userId, String language, String phone, String state) {
         this.userId = userId;
         this.language = language;
         this.phone = phone;

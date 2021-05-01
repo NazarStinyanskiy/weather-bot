@@ -18,7 +18,7 @@ import ua.nazariy.weather.commands.slash.LangsCommand;
 import ua.nazariy.weather.commands.slash.WeatherCommand;
 
 import ua.nazariy.weather.config.Config;
-import ua.nazariy.weather.db.pojo.UserPOJO;
+import ua.nazariy.weather.db.pojo.UserModel;
 import ua.nazariy.weather.lang.Language;
 
 public class Bot extends TelegramLongPollingCommandBot {
@@ -36,11 +36,11 @@ public class Bot extends TelegramLongPollingCommandBot {
         register(new LangsCommand("/langs", "shows all available languages"));
         register(new WeatherCommand("/weather", "sending current weather"));
 
-        NoSlashCommandStorage.register(new OpenWeatherMapCommand("Open Weather Map", UserPOJO.State.SERVICE));
-        NoSlashCommandStorage.register(new WeatherStackCommand("Weatherstack", UserPOJO.State.SERVICE));
-        NoSlashCommandStorage.register(new EnCommand(Language.Flags.EN, UserPOJO.State.LANG));
-        NoSlashCommandStorage.register(new RuCommand(Language.Flags.RU, UserPOJO.State.LANG));
-        NoSlashCommandStorage.register(new UaCommand(Language.Flags.UA, UserPOJO.State.LANG));
+        NoSlashCommandStorage.register(new OpenWeatherMapCommand("Open Weather Map", UserModel.State.SERVICE));
+        NoSlashCommandStorage.register(new WeatherStackCommand("Weatherstack", UserModel.State.SERVICE));
+        NoSlashCommandStorage.register(new EnCommand(Language.Flags.EN, UserModel.State.LANG));
+        NoSlashCommandStorage.register(new RuCommand(Language.Flags.RU, UserModel.State.LANG));
+        NoSlashCommandStorage.register(new UaCommand(Language.Flags.UA, UserModel.State.LANG));
     }
 
     @Override

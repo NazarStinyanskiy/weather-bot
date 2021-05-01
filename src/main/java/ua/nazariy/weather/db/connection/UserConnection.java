@@ -2,17 +2,17 @@ package ua.nazariy.weather.db.connection;
 
 import ua.nazariy.weather.Settings;
 import ua.nazariy.weather.config.Config;
-import ua.nazariy.weather.db.pojo.UserPOJO;
+import ua.nazariy.weather.db.pojo.UserModel;
 
 import java.sql.*;
 
 public class UserConnection {
     private static final Config secureConfig = Settings.getSecureConfig();
 
-    public static UserPOJO select(long userId){
+    public static UserModel select(long userId){
         Connection connection = null;
         Statement statement = null;
-        UserPOJO user = new UserPOJO();
+        UserModel user = new UserModel();
 
         try {
             Class.forName(secureConfig.getProperty("db.driver"));
@@ -44,7 +44,7 @@ public class UserConnection {
         return user;
     }
 
-    public static boolean write(UserPOJO userPOJO){
+    public static boolean write(UserModel userModel){
         Connection connection = null;
         Statement statement = null;
 
@@ -54,11 +54,11 @@ public class UserConnection {
             statement = getStatement(connection);
 
             statement.executeUpdate("INSERT INTO users VALUES ("
-                    + userPOJO.getUserId() + ", "
-                    + userPOJO.getLanguage() + ", "
-                    + userPOJO.getPhone() + ", "
-                    + userPOJO.getWeatherService() + ", "
-                    + "'" + userPOJO.getState() + "'" + ")"
+                    + userModel.getUserId() + ", "
+                    + userModel.getLanguage() + ", "
+                    + userModel.getPhone() + ", "
+                    + userModel.getWeatherService() + ", "
+                    + "'" + userModel.getState() + "'" + ")"
             );
 
             statement.close();

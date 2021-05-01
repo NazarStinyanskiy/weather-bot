@@ -1,18 +1,10 @@
 package ua.nazariy.weather.commands;
 
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.User;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
 import org.telegram.telegrambots.meta.bots.AbsSender;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import ua.nazariy.weather.Settings;
-import ua.nazariy.weather.db.connection.UserConnection;
-import ua.nazariy.weather.db.pojo.UserPOJO;
 import ua.nazariy.weather.lang.Language;
-
-import java.util.Map;
 
 public abstract class AbstractCommand extends BotCommand implements Command{
     protected Language language;

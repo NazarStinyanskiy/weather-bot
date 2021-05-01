@@ -10,7 +10,7 @@ import ua.nazariy.weather.config.services.ServiceStorage;
 import ua.nazariy.weather.config.services.exception.CityNotFoundException;
 import ua.nazariy.weather.config.services.exception.StatusCodeException;
 import ua.nazariy.weather.db.connection.UserConnection;
-import ua.nazariy.weather.db.pojo.UserPOJO;
+import ua.nazariy.weather.db.pojo.UserModel;
 import ua.nazariy.weather.models.Model;
 
 import java.util.HashMap;
@@ -23,7 +23,7 @@ public class WeatherCommand extends AbstractCommand {
 
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
-        UserPOJO userPOJO = UserConnection.select(user.getId());
+        UserModel userModel = UserConnection.select(user.getId());
         SendMessage message = getSendMessage(chat.getId());
 
         if (strings.length == 0) {
@@ -32,13 +32,13 @@ public class WeatherCommand extends AbstractCommand {
             return;
         }
 
-        if (userPOJO.getWeatherService() == null) {
+        if (userModel.getWeatherService() == null) {
             message.setText(language.getSpeech("no.service.chosen"));
             execute(absSender, message);
             return;
         }
 
-        AbstractWeatherService service = ServiceStorage.getService(userPOJO.getWeatherService());
+        AbstractWeatherService service = ServiceStorage.getService(userModel.getWeatherService());
         if (service == null) {
             message.setText(language.getSpeech("no.such.service"));
             execute(absSender, message);
